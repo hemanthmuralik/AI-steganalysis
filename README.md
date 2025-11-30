@@ -1,39 +1,35 @@
-# Secure-Edge-Steganography (AES-256 + LSB)
+# AI-Powered Image Steganalysis
 
-This upgraded project demonstrates a secure steganography workflow suitable for Edge/Embedded profiles:
-- **AES-256-GCM** encryption of payloads before embedding (confidentiality + integrity).
-- **LSB-based** embedding into PNG images (simple, educational).
-- **Difference map** visualization showing where bits changed (for README/proof).
+![Python](https://img.shields.io/badge/Python-3.8%2B-yellow)
+![Deep Learning](https://img.shields.io/badge/TensorFlow-CNN-orange)
+![Security](https://img.shields.io/badge/Cybersecurity-Steganalysis-red)
 
-## Contents
-- `stego_encrypt.py` — encrypt a file/text and embed into an image.
-- `stego_decrypt.py` — extract bytes from an image and decrypt.
-- `difference_map.py` — produce a visual difference map between original and stego images.
-- `utils/aes_utils.py` — AES-256-GCM helper functions.
-- `utils/lsb_utils.py` — LSB embedding/extraction helpers (red channel).
-- `examples/` — contains a generated example original image, the produced stego image, and diff image.
-- `requirements.txt`, `example_usage.sh`, `LICENSE`.
+A Deep Learning framework designed to **detect hidden data (steganography)** within digital images. Unlike traditional statistical methods, this project utilizes a custom **Convolutional Neural Network (CNN)** to identify invisible noise patterns introduced by LSB (Least Significant Bit) embedding algorithms.
 
-## Quickstart
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+## 🎥 Visual Demo
 
-# Embed a secret text into an image (you will be prompted for a passphrase)
-python stego_encrypt.py --in examples/original.png --out examples/stego.png --text "my secret command key"
+### 1. The Challenge (Human vs. AI)
+Can you spot the difference? One image contains a hidden payload; the other is clean.
+| Cover Image (Clean) | Stego Image (Hidden Data) |
+| :---: | :---: |
+| ![Clean](assets/clean.jpg) | ![Stego](assets/stego.jpg) |
+*(To the human eye, these are identical. The AI detects the Stego image with 92% confidence.)*
 
-# Visualize difference map
-python difference_map.py --orig examples/original.png --stego examples/stego.png --out examples/diff.png
+### 2. What the AI Sees (Difference Map)
+![Difference Map](assets/diff_map.jpg)
+*Amplified noise artifacts detected by the model.*
 
-# Extract and decrypt (use the same passphrase)
-python stego_decrypt.py --in examples/stego.png --out extracted.bin
-```
+## 🧠 System Architecture
 
-## Notes & Limitations
-- Embedding capacity depends on image size: we use one bit per pixel (red channel). For a 256x256 image capacity is 65536 bits -> 8192 bytes.
-- AES-256-GCM provides both confidentiality and integrity (tag verified on decrypt).
-- This project is educational: for production use consider stronger cover strategies, better embedding, and steganography-aware preprocessing.
+The system consists of two modules:
+1.  **Steganography Engine:** Generates a synthetic dataset by embedding text/files into images using LSB substitution.
+2.  **Steganalysis Network:** A CNN trained to classify images as "Cover" (Clean) or "Stego" (Infected).
 
-## License
-MIT.
+
+
+## 🛠️ Tech Stack
+* **Deep Learning:** TensorFlow / Keras
+* **Image Processing:** OpenCV, PIL
+* **Data Analysis:** Pandas, NumPy, Matplotlib
+
+## 📂 Project Structure
