@@ -20,4 +20,26 @@ jobs:
         
     - name: Verify Model Architecture
       run: |
-        python test_ci.py
+        python -c "
+        import sys
+        import os
+        sys.path.append(os.getcwd())
+        
+        try:
+            from models.ye_net import build_yenet
+            model = build_yenet()
+            model.summary()
+            print('✅ Ye-Net Compiled Successfully')
+        except ImportError:
+            # Fallback: Try importing if user put it in root
+            try:
+                from ye_net import build_yenet
+                model = build_yenet()
+                print('✅ Ye-Net (Root) Compiled Successfully')
+            except ImportError as e:
+                print(f'❌ Failed to import: {e}')
+                print('Files in current dir:', os.listdir('.'))
+                if os.path.exists('models'):
+                    print('Files in models dir:', os.listdir('models'))
+                sys.exit(1)
+        "
