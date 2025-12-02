@@ -6,22 +6,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.9' # Updated to 3.9 for better TF compatibility
+        python-version: '3.9'
         
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Install exact versions to prevent conflicts
-        pip install tensorflow==2.15.0 numpy opencv-python-headless
+        pip install tensorflow-cpu==2.15.0 numpy opencv-python-headless
         
     - name: Verify Model Architecture
-      env:
-        PYTHONPATH: ${{ github.workspace }}
       run: |
-        # We explicitly add the current directory to PYTHONPATH so python can find 'models'
-        python -c "import sys; sys.path.append('.'); from models.ye_net import build_yenet; model = build_yenet(); print('✅ Ye-Net Compiled Successfully')"
+        # Now we import directly from the root file 'ye_net.py'
+        python -c "from ye_net import build_yenet; model = build_yenet(); model.summary(); print('✅ Ye-Net Compiled Successfully')"
