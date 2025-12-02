@@ -1,0 +1,24 @@
+name: Model Quality Check
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tensorflow-cpu==2.15.0 numpy opencv-python-headless
+        
+    - name: Verify Model Architecture
+      run: |
+        # Now we import directly from the root file 'ye_net.py'
+        python -c "from ye_net import build_yenet; model = build_yenet(); model.summary(); print('✅ Ye-Net Compiled Successfully')"
