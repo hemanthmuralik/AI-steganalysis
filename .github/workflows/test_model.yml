@@ -20,5 +20,6 @@ jobs:
         
     - name: Verify Model Architecture
       run: |
-        # Now we import directly from the root file 'ye_net.py'
-        python -c "from ye_net import build_yenet; model = build_yenet(); model.summary(); print('✅ Ye-Net Compiled Successfully')"
+        # FIX: Add current directory to PYTHONPATH so 'models' package is found
+        export PYTHONPATH=$PYTHONPATH:.
+        python -c "from models.ye_net import build_yenet; model = build_yenet(); model.summary(); print('✅ Ye-Net Compiled Successfully')"
